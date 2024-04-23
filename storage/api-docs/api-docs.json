@@ -1,0 +1,433 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Incidents API Documentation",
+        "version": "0.1"
+    },
+    "servers": [
+        {
+            "url": "http://localhost/api/v1",
+            "description": ""
+        }
+    ],
+    "paths": {
+        "/incidents": {
+            "get": {
+                "tags": [
+                    "Incidents"
+                ],
+                "summary": "Get all incidents",
+                "operationId": "8a972071364f8eb8a4453141da45620c",
+                "responses": {
+                    "200": {
+                        "description": "List of incidents",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Incident"
+                                            }
+                                        },
+                                        "links": {
+                                            "$ref": "#/components/schemas/PaginationLinks"
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/PaginationMeta"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Incidents"
+                ],
+                "summary": "Create a new incident",
+                "operationId": "4afb1f4e1087d2ecbd23bc5a599043b3",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreIncidentRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Incident created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IncidentResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "field_name": [
+                                                    "Error message"
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/incidents/{id}": {
+            "get": {
+                "tags": [
+                    "Incidents"
+                ],
+                "summary": "Get incident by ID",
+                "operationId": "694ac810760384d8e425e80ec7f04e8f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the incident",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Incident details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IncidentResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Incident not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Incidents"
+                ],
+                "summary": "Update incident by ID",
+                "operationId": "279d5790347e8b114168a6096813f1e2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the incident",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateIncidentRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Incident updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Incident not found"
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid"
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "field_name": [
+                                                    "Error message"
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Incidents"
+                ],
+                "summary": "Delete incident by ID",
+                "operationId": "14fc7fb3b30cdaa24fad75faf0f898d1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the incident",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Incident deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Incident not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Incident": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "courierId": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "clientId": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Test Incident"
+                    },
+                    "reason": {
+                        "type": "string",
+                        "example": "Test Reason"
+                    },
+                    "occurredAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-04-15T12:00:00Z"
+                    },
+                    "deadline": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-04-22T12:00:00Z"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreIncidentRequest": {
+                "required": [
+                    "name",
+                    "reason",
+                    "occurred_at",
+                    "deadline"
+                ],
+                "properties": {
+                    "courierId": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "clientId": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Test Incident"
+                    },
+                    "reason": {
+                        "type": "string",
+                        "example": "Test Reason"
+                    },
+                    "occurredAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-04-13T12:00:00Z"
+                    },
+                    "deadline": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-04-20T12:00:00Z"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateIncidentRequest": {
+                "properties": {
+                    "courierId": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "clientId": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Updated Incident"
+                    },
+                    "reason": {
+                        "type": "string",
+                        "example": "Updated Reason"
+                    },
+                    "occurredAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-04-15T12:00:00Z"
+                    },
+                    "deadline": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-04-22T12:00:00Z"
+                    }
+                },
+                "type": "object"
+            },
+            "IncidentResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Incident"
+                    }
+                },
+                "type": "object"
+            },
+            "PaginationLinks": {
+                "properties": {
+                    "first": {
+                        "type": "string",
+                        "example": "/incidents?page=1"
+                    },
+                    "last": {
+                        "type": "string",
+                        "example": "/incidents?page=5"
+                    },
+                    "prev": {
+                        "type": "string",
+                        "example": "/incidents?page=2"
+                    },
+                    "next": {
+                        "type": "string",
+                        "example": "/incidents?page=4"
+                    }
+                },
+                "type": "object"
+            },
+            "PaginationMeta": {
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "from": {
+                        "type": "integer",
+                        "example": 21
+                    },
+                    "to": {
+                        "type": "integer",
+                        "example": 30
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "total": {
+                        "type": "integer",
+                        "example": 50
+                    },
+                    "last_page": {
+                        "type": "integer",
+                        "example": 5
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "name": "bearerAuth",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    }
+}
